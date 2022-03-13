@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'auctionNew' %}">New auction</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- New Auction Section -->
+        <div class="checkout">
+            <div class="container-fluid"> 
+                        <button id="connectButton" class="meta-btn">Connect To MetaMask</button>
+                        <div class="checkout-inner">
+                            <form id="auctionForm" class="billing-address">
+                                {% csrf_token %}
+
+                                <h2>New Auction</h2>
+                                {% for value in form.errors %}
+                                <p style="text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;">The {{value}} has just taken, try with an other... </p>
+                                {% endfor %}
+                                {% for message in messages %}
+                                <p style="text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;">{{message}}</p>
+                                {% endfor %}
+
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Beneficiary's Address</label>
+                                        <input class="form-control" type="text" name="beneficiary" placeholder="Beneficiary's address" required="required">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Auction Description</label>
+                                        <input class="form-control" type="text" name="description" placeholder="Description" required="required">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Starting Price</label>
+                                        <input class="form-control" type="number" min="0" step="1" name="startingPrice" placeholder="Starting Price (gwei)" required="required">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label>Image</label>
+                                        <input class="form-control" type="file" name="image" accept="image/png, image/jpeg" required="required">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label>Deadline</label>
+                                        <input class="form-control" type="datetime-local" name="biddingTime" required="required">
+                                    </div>
+
+
+
+
+                                </div>
+                                <div class="col-md-6">
+                                        <button class="actionButton meta-btn"  style="display:none" type="submit" onclick="newAuction(); return false;">Create Auction</button>
+                                        <p style="margin-top:10px">Remember: you have to be an auctioneer</p>
+                                    </div>
+                            </form>
+                        </div>
+
+            </div>
+        </div>
+        <!-- New Auction Section End -->
+
+
+        <!-- Scripts -->
+        <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1/web3.min.js"
+          integrity="sha512-5erpERW8MxcHDF7Xea9eBQPiRtxbse70pFcaHJuOhdEBQeAxGQjUwgJbuBDWve+xP/u5IoJbKjyJk50qCnMD7A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer">
+        </script>
+
+        <script type="text/javascript" src="{% static 'js/meta.js' %}"></script>
+        {% endblock %}

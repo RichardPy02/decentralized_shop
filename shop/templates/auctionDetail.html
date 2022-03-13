@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tag_extra %}
+{% block content %}
+
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'auctionsList' %}">Auctions</a></li>
+                    <li class="breadcrumb-item active"><a href="{% url 'auctionDetail' auction.pk %}">Auction Detail</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+
+        <!-- Auction Detail Start -->
+        <div class="product-detail">
+            <div class="container-fluid">
+                <button id="connectButton" class="meta-btn">Connect To MetaMask</button>
+                <div id="txReceipt" style="margin-top:10px, margin-bottom:10px"></div>
+
+                <div class="row">
+                        <div style="width:100%" class="product-detail-top">
+                            <div class="row align-items-center">
+                                <div class="col-md-5">
+                                    <div class="product-slider-single">
+                                        <img src="{{auction.imgShoe.url}}" alt="Product Image">
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="product-content">
+                                        <div class="title"><h2>{{auction.description|title}}</h2></div>
+                                        <hr>
+                                        <div class="title" ><h4 style="font-size:18px;"><span style="font-size:18px; font-weight:700">Deadline:</span> {{auction.auctionEndTime|timestamp_to_time|date:"D d M Y, G:H:s"}} (<span style="font-weight:700" id="{{auction.auctionEndTime|timestamp_to_time|date:"M d, Y G:H:s"}}" class="countdown">Loading...</span>)</h4></div>
+                                        <hr>
+                                        <div class="price">
+                                            <h4>Highest Bid:</h4>
+                                            <p class="highestBid" style="display: inline-block;color: #FF6F61;font-size: 22px;font-weight: 700;margin: 0;" id="{{auction.auctionID}}">Loading...</p>
+                                        </div>
+                                        <hr>
+                                        <div class="title" ><h4 style="font-size:18px;"><span style="font-size:18px; font-weight:700">Beneficiary:</span> <a href="https://ropsten.etherscan.io/address/{{auction.beneficiary}}" target="_blank">{{auction.beneficiary}}</a></h4></div>
+                                        <hr>
+                                        <div class="title" ><h4 style="font-size:18px;"><span style="font-size:18px; font-weight:700">NumBids:</span> <span  id="numBids" class="numBids">Loading...</span></h4></div>
+                                        <hr>
+
+                                        <div class="title" ><h4 style="font-size:18px;"><span style="font-size:18px; font-weight:700">Highest Bidder:</span> <span  id="highestBidder" class="highestBidder">Loading...</span></h4></div>
+                                        <hr>
+                                        <div class="title" ><h4 style="font-size:18px;"><span style="font-size:18px; font-weight:700">AuctionID:</span> {{auction.auctionID}}</h4></div>
+                                        <hr>
+
+                                        {% if not auction.auctionEndTime|check_end %}
+                                        <div class="action">
+                                            <h4 style="font-size:18px; font-weight:700">Bid:</h4>
+
+                                        <form id="bidForm{{auction.auctionID}}" class="billing-address"  onsubmit="bid({{auction.auctionID}});return false;">
+                                        {% csrf_token %}
+                                        <input class="form-control" min="1" type="number" name="amount" placeholder="Bid amount (gwei)" required="required">
+                                        <button class="btn meta-btn actionButton"   style="display:none"  type="submit">Bid Now</button>
+                                        </form>
+
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- auction Detail End -->
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1/web3.min.js"
+      integrity="sha512-5erpERW8MxcHDF7Xea9eBQPiRtxbse70pFcaHJuOhdEBQeAxGQjUwgJbuBDWve+xP/u5IoJbKjyJk50qCnMD7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer">
+    </script>
+
+    <script type="text/javascript" src="{% static 'js/meta.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/detailSocket.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tag_extra %}
+{% block content %}
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'auctionsList' %}">Auctions</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+
+        <!-- Auctions List Start -->
+        <div class="product-view">
+            <div class="container-fluid">
+                <button id="connectButton" class="meta-btn">Connect To MetaMask</button>
+
+                <div class="row">
+                    {% for auction in auctions %}
+
+                            <div class="col-md-4">
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <h5 style="color:white; text-align:center;">{{auction.description}}</h5>
+                                    </div>
+                                    <div class="product-image">
+                                        <img src="{{auction.imgShoe.url}}" alt="Product Image">
+                                    </div>
+
+                                    <div class="product-title">
+                                        <h5 style="color:white; text-align:center;">Remaining time: </h5>
+                                        <h5 id="{{auction.auctionEndTime|timestamp_to_time|date:"M d, Y G:H:s"}}" class="countdown" style="color:white; text-align:center;">Loading...</h5>
+                                    </div>
+                                    <div class="product-title">
+                                        <h5 style="color:white; text-align:center;">Highest Bid: <div id="highestBid{{auction.auctionID}}">Loading...</div></h5>
+                                    </div>
+
+                                    {% if user.is_authenticated %}
+                                    <div class="product-price">
+                                        <a class="btn" href="{% url 'auctionDetail' auction.pk %}"><i class="fa fa-shopping-cart"></i>See Details</a>
+                                    </div>
+                                    {% else %}
+                                    <div class="product-price">
+                                        <a class="btn" href="{% url 'login' %}"><i class="fa fa-shopping-cart"></i>Login To See Details</a>
+                                    </div>
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% empty %}
+                        <p>There aren't available auctions...</p>
+                        {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <!-- Auctions List End -->
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1/web3.min.js"
+      integrity="sha512-5erpERW8MxcHDF7Xea9eBQPiRtxbse70pFcaHJuOhdEBQeAxGQjUwgJbuBDWve+xP/u5IoJbKjyJk50qCnMD7A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer">
+    </script>
+
+    <script type="text/javascript" src="{% static 'js/meta.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/socket.js' %}"></script>
+{% endblock %}

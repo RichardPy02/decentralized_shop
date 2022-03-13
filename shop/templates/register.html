@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'register' %}">Register</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Registration Section Start -->
+        <div class="checkout">
+            <div class="container-fluid"> 
+
+                        <div class="checkout-inner">
+                            <form class="billing-address" action="register" method="post">
+                                {% csrf_token %}
+
+                                <h2>Join Us</h2>
+                                {% for value in form.errors %}
+                                <p style="text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;">The {{value}} has just taken, try with an other... </p>
+                                {% endfor %}
+                                {% for message in messages %}
+                                <p style="text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;">{{message}}</p>
+                                {% endfor %}
+
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Username</label>
+                                        <input class="form-control" type="text" name="username" placeholder="Username" required="required">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>E-mail</label>
+                                        <input class="form-control" type="email" name="email" placeholder="E-mail" required="required">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label>First Name</label>
+                                        <input class="form-control" type="text" name="first_name" placeholder="First Name" required="required">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Last Name</label>
+                                        <input class="form-control" type="text" name="last_name" placeholder="Last Name" required="required">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Password</label>
+                                        <input class="form-control" type="password" name="password1" placeholder="Password" required="required">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Confirm password</label>
+                                        <input class="form-control" type="password" name="password2" placeholder="Confirm Password" required="required">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="meta-btn" type="submit">Register</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+            </div>
+        </div>
+        <!-- Registration Section End -->
+        
+        {% endblock %}

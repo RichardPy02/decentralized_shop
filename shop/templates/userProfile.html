@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tag_extra %}
+{% block content %}
+
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'userProfile' user.pk %}">My Personal Area</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+
+        <!-- My Account Start -->
+        <div class="my-account">
+            <div class="container-fluid">
+                <button id="connectButton" class="meta-btn">Connect To MetaMask</button>
+                <div class="row">
+
+                    <div class="tab-content" style="width:100%">
+                        <h4 style="font-weight:700">{{user.first_name|title}}'s Personal Area</h4>
+                        <hr>
+                        <div style="margin-top:15px" >
+                            <a href="https://ropsten.etherscan.io/address/0xb49468a4560f4929211d7e968b8b16f81562831b" target="_blank"> See Smart Contract</a>
+
+                        </div>
+                        {% if user.is_staff %}
+                        {% if auctions %}
+                        <div id="dashboard-tab" style="margin-top:15px" >
+                            <h4>List of Auctions:</h4>
+
+                        </div>
+                        <div  id="orders-tab">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>AuctionID</th>
+                                            <th>Description</th>
+                                            <th>Beneficiary</th>
+                                            <th>Deadline</th>
+                                            <th>Completed</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for auction in auctions %}
+                                        <tr>
+                                            <td>{{auction.auctionID}}<br> <a href="{% url 'auctionDetail' auction.pk %}">See Details</a></td>
+                                            <td>{{auction.description}}</td>
+                                            <td>{{auction.beneficiary}}</td>
+                                            <td>{{auction.auctionEndTime|timestamp_to_time|date:"D d M Y, G:H:s"}}</td>
+                                            <td>{{auction.completed}}</td>
+                                            <td>
+                                                {% if not auction.completed and auction.auctionEndTime|check_end %}
+                                                <form id="endForm" >
+                                                    {% csrf_token %}
+                                                <button id="endAuctionButton" class="btn actionButton"  style="display:none" type="submit" onclick="auctionEnd({{auction.auctionID}}); return false;">End Auction</button>
+                                                </form>
+                                                {% elif not auction.completed %}
+                                                Wait for deadline
+                                                {% else %}
+                                                <a href="https://ropsten.etherscan.io/tx/{{auction.txReceiptAuctionEnd}}" target="_blank">ENDED</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div style="margin-top:15px" >
+                            <h4>There are not auctions yet...</h4>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+
+                        {% if user.is_superuser %}
+                        <hr>
+                        <div style="margin-top:15px">
+                            <h4>Auctioneers</h4>
+                            <p>
+                                Handle auctioneers here.
+                            </p>
+                        </div>
+
+                        <div aria-labelledby="address-nav">
+                            <p>Add auctioneer :</p>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <form id="addAuctioneerForm" class="billing-address"  onsubmit="addAuctioneer(); return false;">
+                                    {% csrf_token %}
+                                    <input class="form-control"  type="text" name="address" placeholder="Address" required="required">
+                                    <button class="btn meta-btn actionButton"   style="display:none"  type="submit">Add</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div aria-labelledby="address-nav">
+                            <p>Remove auctioneer:</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form id="removeAuctioneerForm" class="billing-address"  onsubmit="removeAuctioneer(); return false;">
+                                    {% csrf_token %}
+                                    <input class="form-control"  type="text" name="address" placeholder="Address" required="required">
+                                    <button class="btn meta-btn actionButton"   style="display:none" type="submit">Remove</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        {% endif %}
+
+
+
+                        <div id="payment-tab" style="margin-top:15px">
+                            <h4>Withdraw</h4>
+                            <p>
+                                If yuo have been overbidded, you can withdraw your bid amount here.
+                            </p>
+                        </div>
+                        <div aria-labelledby="address-nav">
+                            <p>Enter the auctionID:</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form id="withdrawForm" class="billing-address"  onsubmit="withdraw(); return false;">
+                                        {% csrf_token %}
+                                        <input class="form-control" min="0" step="1" type="number" name="auctionID" placeholder="AuctionID" required="required">
+                                        <button class="btn meta-btn actionButton"   style="display:none"  type="submit">Withdraw</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- My Account End -->
+
+        <!-- Scripts -->
+        <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1/web3.min.js"
+          integrity="sha512-5erpERW8MxcHDF7Xea9eBQPiRtxbse70pFcaHJuOhdEBQeAxGQjUwgJbuBDWve+xP/u5IoJbKjyJk50qCnMD7A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer">
+        </script>
+        <script type="text/javascript" src="{% static 'js/meta.js' %}"></script>
+
+{% endblock %}

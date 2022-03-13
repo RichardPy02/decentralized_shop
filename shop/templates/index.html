@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+        
+        <!-- Main Slider Start -->
+        <div class="header">
+            <div class="container-fluid">
+                <div class="row">
+
+
+                        <div class="header-slider normal-slider">
+                            <div class="header-slider-item">
+
+                                <img style="background-position: center" src="{% static 'img/homepage.png' %}" alt="Slider Image" />
+
+                                <div class="header-slider-caption">
+                                    {% if user.is_authenticated %}
+                                    <p>Hi {{user.first_name}}, take a look at our Charity Auctions with our Limited Edition and Eco-Friendly Shoes</p>
+                                    {% else %}
+                                    <p>Take a look at our Charity Auctions with our Limited Edition and Eco-Friendly Shoes</p>
+                                    {% endif %}
+                                    <a class="btn" href="{% url 'auctionsList' %}"><i class="fa fa-shopping-cart"></i>See Auctions</a>
+                                </div>
+                            </div>
+                            <div class="header-slider-item">
+
+                                <img src="{% static 'img/homepage2.jpg' %}" alt="Slider Image" />
+
+                                <div class="header-slider-caption">
+                                    <p>Our Shoes are made with Care of the Environment</p>
+                                    {% if user.is_authenticated %}
+                                    <a class="btn" href="{% url 'auctionsList' %}"><i class="fa fa-shopping-cart"></i>See Auctions</a>
+                                    {% else %}
+                                    <a class="btn" href="{% url 'login' %}"><i class="fa fa-shopping-cart"></i>Login To Participate In Auctions</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="header-slider-item">
+
+                                <img src="{% static 'img/homepage3.jpg' %}" alt="Slider Image" />
+
+                                <div class="header-slider-caption">
+                                    <p>Take a look at our Charity Auctions with our Limited Edition and Eco-Friendly Shoes</p>
+                                    {% if user.is_authenticated %}
+                                    <a class="btn" href="{% url 'auctionsList' %}"><i class="fa fa-shopping-cart"></i>See Auctions</a>
+                                    {% else %}
+                                    <a class="btn" href="{% url 'login' %}"><i class="fa fa-shopping-cart"></i>Login To Participate In Auctions</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main Slider End -->      
+
+
+        
+{% endblock %}
