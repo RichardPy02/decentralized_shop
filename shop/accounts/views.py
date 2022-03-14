@@ -49,7 +49,7 @@ def logout(request):
 
 # user profile
 @login_required
-def user_profile(request, pk):
+def userProfile(request, pk):
     if request.method == 'POST':
         auctionID = request.POST['auctionID']
         numBids = request.POST['numBids']

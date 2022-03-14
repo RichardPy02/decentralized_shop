@@ -19,7 +19,7 @@ def index(request):
 
 
 # show auctions
-def auctions_list(request):
+def auctionsList(request):
     auctions = Auction.objects.filter(completed=False).order_by('auctionEndTime')
 
     return render(request, 'auctionsList.html', {'auctions': auctions})
@@ -27,7 +27,7 @@ def auctions_list(request):
 
 # create a new auction
 @staff_member_required
-def auction_new(request):
+def auctionNew(request):
     if request.method == 'POST':
         beneficiary = request.POST['beneficiary']
         description = request.POST['description']
@@ -49,7 +49,7 @@ def auction_new(request):
 
 # show details about auction
 @login_required
-def auction_detail(request, pk):
+def auctionDetail(request, pk):
     if cache.get(pk):
         auction = cache.get(pk)
         print("from redis")
