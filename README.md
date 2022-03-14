@@ -49,7 +49,7 @@
 
 This project, realized for educational purposes, regards building a decentralized eco-friendly shoe shop putting its products up for charity auctions, handled by an ethereum 
 [smart contract](https://ropsten.etherscan.io/address/0xb49468a4560f4929211d7e968b8b16f81562831b)
-(deployed on Ropsten Testnet) where users can interact with it to bid and auctioneers can create new auctions, whose receipt are stored in the contract once ended.
+(deployed on Ropsten Testnet) where users can interact with it to bid and auctioneers can create new auctions, whose receipts are stored in the contract once ended.
 Moreover, a website, created with a web framework (in this case [Django](https://www.djangoproject.com/)) using Redis for cache and SQLite as main db, provides online store infrastructure and enables users to interact with the smart contract functionalities, using MetaMask as wallet and provider.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -130,6 +130,6 @@ Don't forget to give the project a star! Thanks again!
 Riccardo, 
 Personal email address: riccardomagni00@gmail.com
 
-Project Link: [https://github.com/RichardPy02/btc-decentralized_crowdfunding_platform](https://github.com/RichardPy02/decentralized_crowdfunding_platform)
+Project Link: [https://github.com/RichardPy02/decentralized_shop](https://github.com/RichardPy02/decentralized_shop)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
