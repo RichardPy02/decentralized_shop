@@ -6,7 +6,7 @@ Module used to deploy the auction contract
 '''
 
 # connect to a node
-providerUrl = 'https://ropsten.infura.io/v3/cbe2b728835b49788d4e181e03fb38f0'
+providerUrl = 'YOUR_URL_PROVIDER'
 web3 = Web3(Web3.HTTPProvider(providerUrl))
 
 # set default account
