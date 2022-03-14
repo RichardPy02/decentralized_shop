@@ -11,7 +11,7 @@
   <p align="center">
       Dapp project implementing a Django application to simulate an online eco-friendly shoe shop putting its product up for charity auctions handled by an ethereum smart contract
     <br/>
-    <!-- <a href="https://riccardo02.pythonanywhere.com/"><strong>Visit the website »</strong></a> -->
+    <a href="https://riccardo02.pythonanywhere.com/"><strong>Visit the website »</strong></a> 
   </p>
 </div>
 
